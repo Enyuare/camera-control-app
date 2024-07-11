@@ -1,0 +1,21 @@
+services:
+  usb_cam:
+    build: .
+    container_name: camera-control-app
+    privileged: true
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+  #  environment:
+ #     - TZ=America/New_York
+    volumes:
+      - /dev:/dev
+      - /sys/class/video4linux:/sys/class/video4linux
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+
+    ports:
+      - "8081:8081"  # Map port 8081 on the host to port 8081 in the container
+    stdin_open: true  # Keep the container open to interact
+    tty: true         # Allocate a pseudo-TTY
+    restart: unless-stopped
+
