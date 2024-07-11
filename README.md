@@ -1,6 +1,6 @@
 # camera-control-app with Docker Compose for ARM arch
 
-Make sure that Docker is installed on your system
+Make sure that Docker is installed on your system and port 8081 is free
 
 Navigate to the directory:
 ```sh
