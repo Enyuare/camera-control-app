@@ -1,35 +1,32 @@
-# camera-control
+# camera-control-app with Docker Compose for ARM arch
 
-Dependencies:
-```sh
-sudo apt-get update
-sudo apt-get install libjsoncpp-dev
-sudo apt install autoconf libtool libudev-dev gcc g++ make cmake unzip libxml2-dev
-```
+Make sure that Docker is installed on your system
 
-Get to the directory:
-
+Navigate to the directory:
 ```sh
 cd SonyARM-init
 ```
 
-Build:
+Build with Docker:
 ```sh
-mkdir build
-cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
-cmake --build .
+docker compose build
 ```
 
-
-To run the executable, open a terminal window:
-
+Power cycle the camera. Run the Docker Container and wait for 5s to initialize the camera 
 ```sh
-./rgb-cam-init
+docker compose run -d
 ```
-Navigate to /SonyARM-init/app. Open a new terminal to send JSON commands:
+To click a picture
 ```sh
-cd ..
 cd app
 python3 commandClick.py
+```
+The image will be stored inside the docker container. You can ssh into the container in a new terminal (or existing) with the following command:
+```sh
+docker exec -it camera-control-app /bin/bash
+```
+
+To see the newly captured image:
+```sh
+ls
 ```
