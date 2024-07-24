@@ -497,7 +497,7 @@ void CameraDevice::get_live_view()
     SDK::CrLiveViewProperty* property = nullptr;
     auto err = SDK::GetLiveViewProperties(m_device_handle, &property, &num);
     if (CR_FAILED(err)) {
-        tout << "GetLiveView FAILED\n";
+        tout << "Capture FAILED\n";
         return;
     }
     SDK::ReleaseLiveViewProperties(m_device_handle, property);
@@ -505,28 +505,28 @@ void CameraDevice::get_live_view()
     SDK::CrImageInfo inf;
     err = SDK::GetLiveViewImageInfo(m_device_handle, &inf);
     if (CR_FAILED(err)) {
-        tout << "GetLiveView FAILED\n";
+        tout << "Capture FAILED\n";
         return;
     }
 
     CrInt32u bufSize = inf.GetBufferSize();
     if (bufSize < 1)
     {
-        tout << "GetLiveView FAILED \n";
+        tout << "Capture FAILED \n";
     }
     else
     {
         auto* image_data = new SDK::CrImageDataBlock();
         if (!image_data)
         {
-            tout << "GetLiveView FAILED (new CrImageDataBlock class)\n";
+            tout << "Capture FAILED (new CrImageDataBlock class)\n";
             return;
         }
         CrInt8u* image_buff = new CrInt8u[bufSize];
         if (!image_buff)
         {
             delete image_data;
-            tout << "GetLiveView FAILED (new Image buffer)\n";
+            tout << "Capture FAILED (new Image buffer)\n";
             return;
         }
         image_data->SetSize(bufSize);
@@ -537,10 +537,10 @@ void CameraDevice::get_live_view()
         {
             // FAILED
             if (err == SDK::CrWarning_Frame_NotUpdated) {
-                tout << "Warning. GetLiveView Frame NotUpdate\n";
+                tout << "Warning. Capture Frame NotUpdate\n";
             }
             else if (err == SDK::CrError_Memory_Insufficient) {
-                tout << "Warning. GetLiveView Memory insufficient\n";
+                tout << "Warning. Capture Memory insufficient\n";
             }
             delete[] image_buff; // Release
             delete image_data; // Release
@@ -584,7 +584,7 @@ void CameraDevice::get_live_view()
                     file.write((char*)image_data->GetImageData(), image_data->GetImageSize());
                     file.close();
                 }
-                tout << "GetLiveView SUCCESS\n";
+                tout << "Capture SUCCESS\n";
                 delete[] image_buff; // Release
                 delete image_data; // Release
             }
