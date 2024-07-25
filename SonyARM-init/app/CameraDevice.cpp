@@ -283,7 +283,7 @@ SCRSDK::CrSdkControlMode CameraDevice::get_sdkmode()
         tout << TEXT("Contents Transfer Mode\n");
     }
     else {
-        tout << TEXT("Remote Control Mode\n");
+        //tout << TEXT("Remote Control Mode\n");
     }
     return m_modeSDK;
 }
@@ -491,7 +491,7 @@ void CameraDevice::get_focus_area()
 
 void CameraDevice::get_live_view()
 {
-    tout << "GetLiveView...\n";
+    //tout << "GetLiveView...\n";
 
     CrInt32 num = 0;
     SDK::CrLiveViewProperty* property = nullptr;
@@ -611,7 +611,7 @@ std::string CameraDevice::getCurrentTimestamp() {
 
     // Use stringstream to format the time
     std::ostringstream oss;
-    oss << std::put_time(local_time, "%Y-%m-%d %H:%M:%S");
+    oss << std::put_time(local_time, "%Y_%m_%d_%H_%M_%S");
 
     return oss.str();
 }
@@ -4300,7 +4300,7 @@ void CameraDevice::OnDisconnected(CrInt32u error)
     tout << "Disconnected from " << m_info->GetModel() << " (" << id.data() << ")\n";
     if ((false == m_spontaneous_disconnection) && (SDK::CrSdkControlMode_ContentsTransfer == m_modeSDK))
     {
-        tout << "Please input '0' to return to the TOP-MENU\n";
+        //tout << "Please input '0' to return to the TOP-MENU\n";
     }
 }
 

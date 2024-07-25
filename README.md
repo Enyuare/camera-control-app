@@ -27,7 +27,7 @@ docker compose build
 
 Power cycle the camera. Run the Docker Container and wait for 5s to initialize the camera 
 ```sh
-docker compose run -d
+docker compose up -d
 ```
 To click a picture
 ```sh
