@@ -19,20 +19,30 @@ Open the crontab
 crontab -e
 ```
 
-When you open the first time, cron will ask you to select a method to edit, enter '1' and then hit enter to select nano as your editor
+When you open the crontab for the first time, cron will ask you to select a method to edit, enter '1' and then hit enter to select nano as your editor
 ```sh
 1
 ```
-Add the following line to the end of the file to the file to extract the images every minute. The frequency of extraction can be chnaged as needed
+
+Add the following line to the end of the file to the file to extract the images every minute. The frequency of extraction can be changed as needed
 ```sh
 * * * * * /home/user/extract.sh
 ```
+
 To extract images every hour, add the following line:
 ```sh
 0 * * * * /home/user/extract.sh
 ```
 
-Replace /home/user with the path where the script exists on your host filesystem
+Replace /home/user with the path where the script exists on your host filesystem. To get the exact path, go to the directory with the script from your terminal and enter:
+```sh
+pwd
+```
+
+For example, the output on this system (where the code was tested) is:
+```sh
+/home/enyuare/camera-control-app/SonyARM-init
+```
 
 To select a location to store images, open extract.sh and change the 'destination' to your desired folder to save images
 
