@@ -7,17 +7,30 @@ Navigate to the directory:
 cd SonyARM-init
 ```
 
-In order for the image files to appear in the local directory and not just exist in the container some configuration change to the yaml file must be made. Otherwise, the image files will disappear when the docker container exits (each power cycle). Edit the docker-compose.yaml file in the SonyARM-init directory. In the section under volumes, add this on a seperate line:
- - /home/your-username/your-working-directory-with-dockerfiles:/home/your-username/your-working-directory-with-dockerfiles
-
-Substitute your username and working directory in the line. For example:
-
-- /home/enyuare/Code/flogistix/camera-control-app/SonyARM-init:/home/enyuare/Code/flogistix/camera-control-app/SonyARM-init
-
-Change the permission of the docker working directory so docker has permission to copy the files to that directory
+We will setup a crontab to extract images from the docker container periodically and delete them from the container
+Install crontab if it is not already installed
 ```sh
-chmod 666 working-directory
+sudo apt-get update
+sudo apt-get install cron
 ```
+
+Open the crontab 
+```sh
+crontab -e
+```
+
+When you open the first time, cron will ask you to select a method to edit, enter '1' and then hit enter to select nano as your editor
+```sh
+1
+```
+Add the following line to the end of the file to the file to extract the images every minute. The frequency of extraction can be chnaged as needed
+```sh
+* * * * * /home/user/extract.sh
+```
+
+Replace /home/user with the path where the script exists on your host filesystem
+
+To select a location to store images, open extract.sh and change the 'destination' to your desired folder to save images
 
 
 Build with Docker:
@@ -43,3 +56,5 @@ To see the newly captured image:
 ```sh
 ls
 ```
+
+After you click images, go to your destination directory to observe pics every minute

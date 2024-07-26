@@ -4658,7 +4658,7 @@ void CameraDevice::OnError(CrInt32u error)
         tout << m_info->GetModel() << " (" << id.data() << ")" << std::endl;
         if (SDK::CrError_Connect_TimeOut == error) {
             // append 1 line
-            tout << "Please input '0' after Connect camera" << std::endl;
+            //tout << "Please input '0' after Connect camera" << std::endl;
             return;
         }
         if (SDK::CrError_Connect_Disconnected == error)
@@ -4675,7 +4675,7 @@ void CameraDevice::OnError(CrInt32u error)
             m_fingerprint.clear();
             m_userPassword.clear();
         }
-        tout << "Please input '0' to return to the TOP-MENU\n";
+        //tout << "Please input '0' to return to the TOP-MENU\n";
     }
 }
 

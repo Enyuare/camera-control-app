@@ -150,7 +150,7 @@ int main()
     // int reserved = (version & 0x000000FF);
 
     //cli::tout << "Remote SDK version: ";
-    cli::tout << major << "." << minor << "." << std::setfill(TEXT('0')) << std::setw(2) << patch << "\n";
+    //cli::tout << major << "." << minor << "." << std::setfill(TEXT('0')) << std::setw(2) << patch << "\n";
 
     //cli::tout << "Initialize Remote SDK...\n";
 
