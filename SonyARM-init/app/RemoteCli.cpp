@@ -47,11 +47,11 @@ void signalHandler(int signum) {
 
 void performAction(const std::string& command) {
     if (command == "1") {
-        std::cout << "Performing action for command 1" << std::endl;
+        //std::cout << "Performing action for command 1" << std::endl;
         // Add your specific action here
     }
     else {
-        std::cout << "Unknown command" << std::endl;
+        //std::cout << "Unknown command" << std::endl;
     }
 }
 
@@ -60,10 +60,10 @@ void processJsonCommand(const std::string& jsonStr) {
     Json::Value obj;
     reader.parse(jsonStr, obj); // reader can also read strings
     std::string command = obj["command"].asString();
-    std::cout << "Received command: " << command << std::endl;
+    //std::cout << "Received command: " << command << std::endl;
 
     {
-        std::lock_guard<std::mutex> lock(commandMutex);
+        //std::lock_guard<std::mutex> lock(commandMutex);
         receivedCommand = command;
     }
     commandCondition.notify_one();
@@ -103,7 +103,7 @@ void startSocketServer() {
         exit(EXIT_FAILURE);
     }
 
-    std::cout << "Waiting for connections..." << std::endl;
+    //std::cout << "Waiting for connections..." << std::endl;
 
     while (true) {
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen)) < 0) {
@@ -111,13 +111,13 @@ void startSocketServer() {
             exit(EXIT_FAILURE);
         }
 
-        std::cout << "Connection established!" << std::endl;
+        //std::cout << "Connection established!" << std::endl;
 
         int valread = read(new_socket, buffer, 1024);
         if (valread > 0) {
             std::string jsonStr(buffer, valread);
 
-            std::cout << "Received JSON: " << jsonStr << std::endl;
+            //std::cout << "Received JSON: " << jsonStr << std::endl;
             processJsonCommand(jsonStr);
         }
 
@@ -141,7 +141,7 @@ int main()
     cli::tin.imbue(std::locale());
     cli::tout.imbue(std::locale());
 
-    cli::tout << "RemoteSampleApp v1.12.00 running...\n\n";
+    //cli::tout << "RemoteSampleApp v1.12.00 running...\n\n";
 
     CrInt32u version = SDK::GetSDKVersion();
     int major = (version & 0xFF000000) >> 24;
@@ -149,10 +149,10 @@ int main()
     int patch = (version & 0x0000FF00) >> 8;
     // int reserved = (version & 0x000000FF);
 
-    cli::tout << "Remote SDK version: ";
-    cli::tout << major << "." << minor << "." << std::setfill(TEXT('0')) << std::setw(2) << patch << "\n";
+    //cli::tout << "Remote SDK version: ";
+    //cli::tout << major << "." << minor << "." << std::setfill(TEXT('0')) << std::setw(2) << patch << "\n";
 
-    cli::tout << "Initialize Remote SDK...\n";
+    //cli::tout << "Initialize Remote SDK...\n";
 
 #if defined(__APPLE__)
         char path[MAC_MAX_PATH]; /*MAX_PATH*/
@@ -165,7 +165,7 @@ int main()
         getcwd(path, sizeof(path) -1);
         cli::tout << "Working directory: " << path << '\n';
 #else
-        cli::tout << "Working directory: " << fs::current_path() << '\n';
+        //cli::tout << "Working directory: " << fs::current_path() << '\n';
 #endif
 
     auto init_success = SDK::Init();
@@ -174,10 +174,10 @@ int main()
         SDK::Release();
         std::exit(EXIT_FAILURE);
     }
-    cli::tout << "Remote SDK successfully initialized.\n\n";
+    //cli::tout << "Remote SDK successfully initialized.\n\n";
 
 #ifdef MSEARCH_ENB
-    cli::tout << "Enumerate connected camera devices...\n";
+    //cli::tout << "Enumerate connected camera devices...\n";
     SDK::ICrEnumCameraObjectInfo* camera_list = nullptr;
     auto enum_status = SDK::EnumCameraObjects(&camera_list);
     if (CR_FAILED(enum_status) || camera_list == nullptr) {
@@ -186,7 +186,7 @@ int main()
         std::exit(EXIT_FAILURE);
     }
     auto ncams = camera_list->GetCount();
-    cli::tout << "Camera enumeration successful. " << ncams << " detected.\n\n";
+    //cli::tout << "Camera enumeration successful. " << ncams << " detected.\n\n";
 
     for (CrInt32u i = 0; i < ncams; ++i) {
         auto camera_info = camera_list->GetCameraObjectInfo(i);
@@ -198,11 +198,11 @@ int main()
             id = ni.mac_address;
         }
         else id = ((TCHAR*)camera_info->GetId());
-        cli::tout << '[' << i + 1 << "] " << model.data() << " (" << id.data() << ")\n";
+        //cli::tout << '[' << i + 1 << "] " << model.data() << " (" << id.data() << ")\n";
     }
 
-    cli::tout << std::endl << "Connect to camera with input number...\n";
-    cli::tout << "input> ";
+    //cli::tout << std::endl << "Connect to camera with input number...\n";
+    //cli::tout << "input> ";
     cli::text connectNo;
     //Added Code
     //std::getline(cli::tin, connectNo);
@@ -219,8 +219,8 @@ int main()
                 break; // finish
 
             if (camera_list->GetCount() < no) {
-                cli::tout << "input value over \n";
-                cli::tout << "input> "; // Redo
+                //cli::tout << "input value over \n";
+                //cli::tout << "input> "; // Redo
                 std::getline(cli::tin, connectNo);
                 continue;
             }
@@ -243,14 +243,14 @@ int main()
     std::int32_t cameraNumUniq = 1;
     std::int32_t selectCamera = 1;
 
-    cli::tout << "Connect to selected camera...\n";
+    //cli::tout << "Connect to selected camera...\n";
     auto* camera_info = camera_list->GetCameraObjectInfo(no - 1);
 
-    cli::tout << "Create camera SDK camera callback object.\n";
+    //cli::tout << "Create camera SDK camera callback object.\n";
     CameraDevicePtr camera = CameraDevicePtr(new cli::CameraDevice(cameraNumUniq, camera_info));
     cameraList.push_back(camera); // add 1st
 
-    cli::tout << "Release enumerated camera list.\n";
+    //cli::tout << "Release enumerated camera list.\n";
     camera_list->Release();
 
     // Overview
@@ -406,7 +406,7 @@ int main()
         // loop-B
         while (true)
         {
-            cli::tout << "<< TOP-MENU >>\nWhat would you like to do? Enter the corresponding number.\n";
+            /*cli::tout << "<< TOP-MENU >>\nWhat would you like to do? Enter the corresponding number.\n";
             cli::tout
                 << "(1) Connect (Remote Control Mode)\n"
                 << "(2) Connect (Contents Transfer Mode)\n"
@@ -414,6 +414,7 @@ int main()
                 << "(x) Exit\n";
 
             cli::tout << "input> ";
+            */
             cli::text action;
             //Added Code
             //std::getline(cli::tin, action);
@@ -496,6 +497,7 @@ int main()
                     // Fingerprint is incorrect
                     break;
                 }
+                /*
                 cli::tout << "<< REMOTE-MENU >>\nWhat would you like to do? Enter the corresponding number.\n";
                 cli::tout
                     << "(s) Status display and camera switching \n"
@@ -509,6 +511,7 @@ int main()
                     ;
 
                 cli::tout << "input> ";
+                */
                 cli::text action;
                 //Added Code
                 //std::getline(cli::tin, action);
@@ -1019,7 +1022,7 @@ int main()
                 // loop-Menu6
                 
                     while (true) {
-                        cli::tout << "<< Other Menu >>\nWhat would you like to do? Enter the corresponding number.\n";
+                        /*cli::tout << "<< Other Menu >>\nWhat would you like to do? Enter the corresponding number.\n";
                         cli::tout
                             << "(0) Return to REMOTE-MENU\n"
 #if defined(LIVEVIEW_ENB)
@@ -1041,6 +1044,7 @@ int main()
                             ;
 
                         cli::tout << "input> ";
+                        */
                         cli::text select;
                         //Added Code
                         //std::getline(cli::tin, select);
