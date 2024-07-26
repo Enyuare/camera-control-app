@@ -27,6 +27,10 @@ Add the following line to the end of the file to the file to extract the images 
 ```sh
 * * * * * /home/user/extract.sh
 ```
+To extract images every hour, add the following line:
+```sh
+0 * * * * /home/user/extract.sh
+```
 
 Replace /home/user with the path where the script exists on your host filesystem
 
