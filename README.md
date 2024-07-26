@@ -7,7 +7,7 @@ Navigate to the directory:
 cd SonyARM-init
 ```
 
-We will setup a crontab to extract images from the docker container periodically and delete them from the container
+We will setup a crontab to extract images from the docker container periodically and delete them from the container to save space inside the container
 Install crontab if it is not already installed
 ```sh
 sudo apt-get update
@@ -61,7 +61,7 @@ To click a picture
 cd app
 python3 commandClick.py
 ```
-The camera image will be stored inside the docker container and in an outside directory (the working directory). To see the image inside the docker container, you can ssh into the container in a new terminal (or existing) with the following command:
+The camera image will be stored inside the docker container. To see the image inside the docker container, you can ssh into the container in a new terminal (or existing) with the following command:
 ```sh
 docker exec -it camera-control-app /bin/bash
 ```
