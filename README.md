@@ -71,4 +71,4 @@ To see the newly captured image:
 ls
 ```
 
-After you click images, go to your destination directory to observe pics every minute
+After you click images, go to your destination directory to observe pics every minute. Once the images appears in the desired directory, they are deleted from the container
