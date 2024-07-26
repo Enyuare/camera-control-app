@@ -33,6 +33,7 @@ To extract images every hour, add the following line:
 ```sh
 0 * * * * /home/user/extract.sh
 ```
+Hit 'CTRL+X', 'y', 'Enter' to save the file in the nano editor
 
 Replace /home/user with the path where the script exists on your host filesystem. To get the exact path, go to the directory with the script from your terminal and enter:
 ```sh
